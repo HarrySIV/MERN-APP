@@ -1,0 +1,60 @@
+.placeitem {
+  margin: 1rem 0;
+}
+
+.placeitem__content {
+  padding: 0;
+}
+
+.placeitem__info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.placeitem__image {
+  width: 100%;
+  height: 12.5rem;
+  margin-right: 1.5rem;
+}
+
+.placeitem__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeitem__info h2,
+.placeitem__info h3,
+.placeitem__info p {
+  margin: 0 0 0.5rem 0;
+}
+
+.placeitem__actions {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.placeitem__modalcontent {
+  padding: 0;
+}
+
+.placeitem__modalactions {
+  text-align: right;
+}
+
+.placeitem__actions button,
+.placeitem__actions a {
+  margin: 0.5rem;
+}
+
+.map-container {
+  height: 15rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .placeitem__image {
+    height: 20rem;
+  }
+}
