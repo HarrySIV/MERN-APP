@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import './PlaceItem.css';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
 import Map from '../../shared/components/UIElements/Map';
+import { AuthContext } from '../../shared/context/auth-context';
+import Auth from '../../user/pages/Auth';
 
 const PlaceItem = (props) => {
   const [showMap, setShowMap] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const auth = useContext(AuthContext);
 
   const openMapHandler = () => {
     setShowMap(true);
@@ -17,13 +21,26 @@ const PlaceItem = (props) => {
     setShowMap(false);
   };
 
+  const showDeleteWarningHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const cancelDeleteHandler = () => {
+    setShowConfirmModal(true);
+  };
+
+  const confirmDeleteHandler = () => {
+    console.log('Deleting...');
+    setShowConfirmModal(false);
+  };
+
   return (
     <>
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
         header={props.address}
-        contentClass="placeitem__content"
+        contentClass="place-item__content"
         footerClass="place-item__modal-actions"
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
@@ -31,22 +48,46 @@ const PlaceItem = (props) => {
           <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
-      <li className="placeitem">
-        <Card className="placeitem__content">
-          <div className="placeitem__image">
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure?"
+        footer={
+          <>
+            <Button onClick={cancelDeleteHandler} inverse>
+              Cancel
+            </Button>
+            <Button onClick={confirmDeleteHandler} danger>
+              Delete
+            </Button>
+          </>
+        }
+        footerClass="place-item__modal-actions"
+      >
+        <p>Do you want to delete this place? This action cannot be undone.</p>
+      </Modal>
+      <li className="place-item">
+        <Card className="place-item__content">
+          <div className="place-item__image">
             <img src={props.image} alt={props.title} />
           </div>
-          <div className="placeitem__info">
+          <div className="place-item__info">
             <h2>{props.title}</h2>
             <h3>{props.address}</h3>
             <p>{props.description}</p>
           </div>
-          <div className="placeitem__actions">
+          <div className="place-item__actions">
             <Button inverse onClick={openMapHandler}>
               VIEW ON MAP
             </Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger>DELETE</Button>
+            {auth.isLoggedIn && (
+              <>
+                <Button to={`/places/${props.id}`}>EDIT</Button>
+                <Button onClick={showDeleteWarningHandler} danger>
+                  DELETE
+                </Button>
+              </>
+            )}
           </div>
         </Card>
       </li>

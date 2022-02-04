@@ -1,50 +1,50 @@
-.placeitem {
+.place-item {
   margin: 1rem 0;
 }
 
-.placeitem__content {
+.place-item__content {
   padding: 0;
 }
 
-.placeitem__info {
+.place-item__info {
   padding: 1rem;
   text-align: center;
 }
 
-.placeitem__image {
+.place-item__image {
   width: 100%;
   height: 12.5rem;
   margin-right: 1.5rem;
 }
 
-.placeitem__image img {
+.place-item__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.placeitem__info h2,
-.placeitem__info h3,
-.placeitem__info p {
+.place-item__info h2,
+.place-item__info h3,
+.place-item__info p {
   margin: 0 0 0.5rem 0;
 }
 
-.placeitem__actions {
+.place-item__actions {
   padding: 1rem;
   text-align: center;
   border-top: 1px solid #ccc;
 }
 
-.placeitem__modalcontent {
+.place-item__modalcontent {
   padding: 0;
 }
 
-.placeitem__modalactions {
+.place-item__modalactions {
   text-align: right;
 }
 
-.placeitem__actions button,
-.placeitem__actions a {
+.place-item__actions button,
+.place-item__actions a {
   margin: 0.5rem;
 }
 
