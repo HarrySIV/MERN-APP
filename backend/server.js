@@ -10,6 +10,16 @@ const server = express();
 
 server.use(bodyParser.json());
 
+server.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, {ATCH, DELETE');
+  next();
+});
+
 server.use('/api/places', placesRoutes);
 server.use('/api/users', usersRoutes);
 
@@ -27,6 +37,8 @@ server.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect('mongodb+srv://harrysiv:ThisIsIt!1@cluster0.d9kcs.mongodb.net/places?retryWrites=true&w=majority')
+  .connect(
+    'mongodb+srv://harrysiv:ThisIsIt!1@cluster0.d9kcs.mongodb.net/places?retryWrites=true&w=majority'
+  )
   .then(() => server.listen(5000))
   .catch((error) => console.log(error));
