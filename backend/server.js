@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,6 +11,8 @@ const HttpError = require('./models/http-error');
 const server = express();
 
 server.use(bodyParser.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 server.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
