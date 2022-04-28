@@ -1,3 +1,5 @@
+import fs = require('fs');
+
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
 const mongooseUniqueValidator = require('mongoose-unique-validator');
@@ -81,7 +83,7 @@ const createPlace = async (req, res, next) => {
     description: description,
     address: address,
     location: coordinates,
-    image: ,
+    image: req.file.path,
     creator: creator,
   });
 
@@ -174,6 +176,8 @@ const deletePlace = async (req, res, next) => {
     return next(err);
   }
 
+  const imagePath = place.image;
+
   try {
     const sesh = await mongoose.startSession();
     sesh.startTransaction();
@@ -188,6 +192,10 @@ const deletePlace = async (req, res, next) => {
     );
     return next(err);
   }
+  
+  fs.unlink(imagePath, err => {
+    console.log(err);
+  });
 
   res.status(200).json({ message: 'Deleted place.' });
 };
