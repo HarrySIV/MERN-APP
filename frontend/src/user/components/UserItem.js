@@ -8,19 +8,22 @@ import Card from '../../shared/components/UIElements/Card';
 const UserItem = (props) => {
   return (
     <li className={styles.useritem}>
-        <Card className={styles.useritem__content}>
-          <Link to={`/${props.id}/places`}>
-            <div className={styles.useritem__image}>
-              <Avatar image={`http://localhost:5000/${props.image}`} alt={props.name} />
-            </div>
-            <div className={styles.useritem__info}>
-              <h2>{props.name}</h2>
-              <h3>
-                {props.placeCount} {props.placeCount === 1 ? 'Place' : 'Places'}
-              </h3>
-            </div>
-          </Link>
-        </Card>
+      <Card className={styles.useritem__content}>
+        <Link to={`/${props.id}/places`}>
+          <div className={styles.useritem__image}>
+            <Avatar
+              image={`${process.env.REACT_APP_ASSET_URL}/${props.image}`}
+              alt={props.name}
+            />
+          </div>
+          <div className={styles.useritem__info}>
+            <h2>{props.name}</h2>
+            <h3>
+              {props.placeCount} {props.placeCount === 1 ? 'Place' : 'Places'}
+            </h3>
+          </div>
+        </Link>
+      </Card>
     </li>
   );
 };
