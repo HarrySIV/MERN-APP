@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const HttpError = require('../models/http-error');
 const User = require('../models/user');
@@ -68,8 +69,19 @@ const signup = async (req, res, next) => {
     const err = new HttpError('Signup failed, please try again.', 500);
     return next(err);
   }
-
-  res.status(201).json({ user: createdUser.toObject({ getters: true }) });
+  try {
+    let token = jwt.sign(
+      { userId: createdUser.id, email: createdUser.email },
+      'secret_dont_share',
+      { expiresIn: '1h' }
+    );
+  } catch (error) {
+    const err = new HttpError('Signup failed, please try again.', 500);
+    return next(err);
+  }
+  res
+    .status(201)
+    .json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
 
 const login = async (req, res, next) => {
@@ -101,14 +113,23 @@ const login = async (req, res, next) => {
   }
 
   if (!isValidPassword) {
-    const error = new HttpError('Invalid credentials, could not login', 401);
+    const error = new HttpError('Invalid credentials, could not login', 403);
     return next(error);
   }
+  try {
+    let token = jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      'secret_dont_share',
+      { expiresIn: '1h' }
+    );
+  } catch (error) {
+    const err = new HttpError('Login failed, please try again.', 500);
+    return next(err);
+  }
 
-  res.json({
-    message: 'Logged in',
-    user: existingUser.toObject({ getters: true }),
-  });
+  res
+    .status(201)
+    .json({ userId: existingUser.id, email: existingUser.email, token: token });
 };
 
 exports.getUsers = getUsers;

@@ -1,4 +1,4 @@
-import fs = require('fs');
+const fs = require('fs');
 
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
@@ -69,7 +69,7 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description, address, creator } = req.body;
+  const { title, description, address } = req.body;
 
   let coordinates;
   try {
@@ -84,13 +84,13 @@ const createPlace = async (req, res, next) => {
     address: address,
     location: coordinates,
     image: req.file.path,
-    creator: creator,
+    creator: req.userData.userID,
   });
 
   let user;
 
   try {
-    user = await User.findById(creator);
+    user = await User.findById(req.userData.userID);
   } catch (error) {
     const err = new HttpError('Creating place failed, please try again.', 500);
     return next(err);
@@ -141,6 +141,11 @@ const updatePlace = async (req, res, next) => {
     return next(err);
   }
 
+  if (place.creator.toString() !== req.userData.userID) {
+    const err = new HttpError('You are not allowed to edit this place.', 401);
+    return next(err);
+  }
+
   place.title = title;
   place.description = description;
 
@@ -176,6 +181,11 @@ const deletePlace = async (req, res, next) => {
     return next(err);
   }
 
+  if (place.creator.id !== req.userData.userID) {
+    const err = new HttpError('You are not allowed to delete this place.', 401);
+    return next(err);
+  }
+
   const imagePath = place.image;
 
   try {
@@ -192,8 +202,8 @@ const deletePlace = async (req, res, next) => {
     );
     return next(err);
   }
-  
-  fs.unlink(imagePath, err => {
+
+  fs.unlink(imagePath, (err) => {
     console.log(err);
   });
 
