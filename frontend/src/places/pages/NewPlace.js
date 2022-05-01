@@ -18,27 +18,24 @@ import './PlaceForm.css';
 const NewPlace = () => {
   const auth = useContext(AuthContext);
   const { isLoading, sendRequest, error, clearError } = useHttpClient();
-  const [formState, inputHandler] = useForm(
-    {
-      title: {
-        value: '',
-        isValid: false,
-      },
-      description: {
-        value: '',
-        isValid: false,
-      },
-      address: {
-        value: '',
-        isValid: false,
-      },
-      image: {
-        value: null,
-        isValid: false,
-      },
+  const [formState, inputHandler] = useForm({
+    title: {
+      value: '',
+      isValid: false,
     },
-    fasle
-  );
+    description: {
+      value: '',
+      isValid: false,
+    },
+    address: {
+      value: '',
+      isValid: false,
+    },
+    image: {
+      value: null,
+      isValid: false,
+    },
+  });
 
   const history = useHistory();
 
@@ -50,9 +47,14 @@ const NewPlace = () => {
       formData.append('description', formState.inputs.description.value);
       formData.append('address', formState.inputs.address.value);
       formData.append('image', formState.inputs.image.value);
-      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/places`, 'POST', formData, {
-        Authorization: `Bearer ${auth.token}`,
-      });
+      await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URL}/places`,
+        'POST',
+        formData,
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
       history.push('/');
     } catch (error) {}
   };
