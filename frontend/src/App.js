@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import 'dotenv/config';
 import {
   BrowserRouter as Router,
   Route,
@@ -18,11 +19,9 @@ import { useAuth } from './shared/hooks/auth-hook';
 const App = () => {
   const { token, login, logout, userId } = useAuth();
 
-  useEffect(() => {
-    console.log(process.env);
-  }, []);
-
   let routes;
+
+  useEffect(() => console.log(token), [token]);
 
   if (token) {
     routes = (

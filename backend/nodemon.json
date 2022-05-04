@@ -1,9 +1,0 @@
-{
-  "env": {
-    "DB_USER": "harrysiv",
-    "DB_PASSWORD": "StopBeingRidiculous",
-    "DB_NAME": "places",
-    "GOOGLE_API_KEY": "AIzaSyDyIdjB26JfgeYqufnuRNQ9vPL4c18iRkc",
-    "JWT_KEY": "secret_dont_share"
-  }
-}
