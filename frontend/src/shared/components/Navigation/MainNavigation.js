@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 import styles from './MainNavigation.module.css';
 import MainHeader from './MainHeader';
@@ -28,7 +27,10 @@ const MainNavigation = (props) => {
         </nav>
       </SideDrawer>
       <MainHeader>
-        <button className={styles.mainnavigation__menubtn} onClick={openDrawerHandler}>
+        <button
+          className={styles.mainnavigation__menubtn}
+          onClick={openDrawerHandler}
+        >
           <span />
           <span />
           <span />
