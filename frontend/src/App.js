@@ -1,3 +1,4 @@
+import React from 'react';
 import 'dotenv/config';
 import {
   BrowserRouter as Router,

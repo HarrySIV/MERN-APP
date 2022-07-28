@@ -1,9 +1,8 @@
-require('dotenv').config()
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const placesRoutes = require('./routes/places-routes');
@@ -12,7 +11,7 @@ const HttpError = require('./models/http-error');
 
 const server = express();
 
-server.use(bodyParser.json());
+server.use(express.json());
 
 server.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
